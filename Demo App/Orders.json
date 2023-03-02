@@ -1,0 +1,14 @@
+[{
+        "Depart": "Paris",
+        "Arrivee": "London",
+        "Date": "2023-04-15"
+    }, {
+        "Depart": "Paris",
+        "Arrivee": "Denver",
+        "Date": "2023-04-30"
+    }, {
+        "Depart": "Paris",
+        "Arrivee": "San Francisco",
+        "Date": "2023-06-30"
+    }
+]
