@@ -1,0 +1,200 @@
+{
+	"info": {
+		"_postman_id": "a6cb5a44-40f8-463d-ba11-a0712e1557f5",
+		"name": "Exercice2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5167767"
+	},
+	"item": [
+		{
+			"name": "SearchFlights",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Statut http est 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Tous les champs sonr présents dans la réponse\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"Airline\");\r",
+							"    pm.expect(pm.response.text()).to.include(\"ArrivalCity\");\r",
+							"    pm.expect(pm.response.text()).to.include(\"ArrivalTime\");\r",
+							"    pm.expect(pm.response.text()).to.include(\"DepartureCity\");\r",
+							"    pm.expect(pm.response.text()).to.include(\"DepartureTime\");\r",
+							"    pm.expect(pm.response.text()).to.include(\"FlightNumber\");\r",
+							"    pm.expect(pm.response.text()).to.include(\"Price\");\r",
+							"    pm.expect(pm.response.text()).to.include(\"PriceFirst\");\r",
+							"    pm.expect(pm.response.text()).to.include(\"PriceBusiness\");\r",
+							"    pm.expect(pm.response.text()).to.include(\"SeatsAvailable\");\r",
+							"    pm.expect(pm.response.text()).to.include(\"DayOfWeek\");\r",
+							"});\r",
+							"\r",
+							"\r",
+							"pm.test(\"Le numéro du 1er vol est 10454 \", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[0].FlightNumber).to.eql(10454);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Vérifier le nombre de vols disponibles = 7 \", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.length).to.eql(7);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Au moins un vol disponible \", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.length).to.be.greaterThan(0);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Response time is less than 10ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(10);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/Flights?DepartureCity=Paris&ArrivalCity=London&Date=2023-04-15",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"Flights"
+					],
+					"query": [
+						{
+							"key": "DepartureCity",
+							"value": "Paris"
+						},
+						{
+							"key": "ArrivalCity",
+							"value": "London"
+						},
+						{
+							"key": "Date",
+							"value": "2023-04-15"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BookFlight",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"DepartureDate\": \"2023-04-15\",\r\n  \"FlightNumber\": 10454,\r\n  \"CustomerName\": \"IMHAH\",\r\n  \"NumberOfTickets\": 2,\r\n  \"Class\": \"First\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/FlightOrders",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"FlightOrders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateOrder",
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"DepartureDate\": \"2023-03-15\",\r\n  \"FlightNumber\": 10353,\r\n  \"CustomerName\": \"IMHAH\",\r\n  \"NumberOfTickets\": 3,\r\n  \"Class\": \"Economy\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/FlightOrders/81",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"FlightOrders",
+						"81"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetOrder",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:5000/FlightOrders/81",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"FlightOrders",
+						"81"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteOrder",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:5000/FlightOrders/81",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"FlightOrders",
+						"81"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
