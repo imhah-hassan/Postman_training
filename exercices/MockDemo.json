@@ -1,0 +1,198 @@
+{
+	"info": {
+		"_postman_id": "1f747b3e-9431-4487-abfe-531ce4222735",
+		"name": "MockDemo",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5167767"
+	},
+	"item": [
+		{
+			"name": "GetFlight",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Le code retour est 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"FlightNumber et SeatsAvailable sont présents dans la réponse\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"FlightNumber\");\r",
+							"    pm.expect(pm.response.text()).to.include(\"SeatsAvailable\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Le nombre de sièges disponibles est supérieur à 2\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.SeatsAvailable).greaterThan(2);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/Flights/10567",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"Flights",
+						"10567"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "GetFlight_10519",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/Flights/10519",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"Flights",
+								"10519"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/2.3.6 Python/3.10.10"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 03 Nov 2023 16:21:56 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "259"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"Airline\": \"AF\",\n    \"ArrivalCity\": \"London\",\n    \"ArrivalTime\": \"10:30 AM\",\n    \"DepartureCity\": \"Paris\",\n    \"DepartureTime\": \"08:00 AM\",\n    \"FlightNumber\": 10519,\n    \"Price\": 139.47,\n    \"PriceFirst\": 167.36,\n    \"PriceBusiness\": 181.31,\n    \"SeatsAvailable\": 246,\n    \"DayOfWeek\": \"Thursday\"\n}"
+				},
+				{
+					"name": "GetFlight_10567",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:5000/Flights/10567",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"Flights",
+								"10567"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Server",
+							"value": "Werkzeug/2.3.6 Python/3.10.10"
+						},
+						{
+							"key": "Date",
+							"value": "Fri, 03 Nov 2023 16:47:22 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "257"
+						},
+						{
+							"key": "Connection",
+							"value": "close"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"Airline\": \"AF\",\n    \"ArrivalCity\": \"London\",\n    \"ArrivalTime\": \"10:30 AM\",\n    \"DepartureCity\": \"Paris\",\n    \"DepartureTime\": \"08:00 AM\",\n    \"FlightNumber\": 10567,\n    \"Price\": 177.47,\n    \"PriceFirst\": 212.96,\n    \"PriceBusiness\": 230.71,\n    \"SeatsAvailable\": 250,\n    \"DayOfWeek\": \"Sunday\"\n}"
+				}
+			]
+		},
+		{
+			"name": "mosk_request",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://c3c9ae92-82e5-4c72-ab18-f405cfce10f8.mock.pstmn.io/Flights/10567",
+					"protocol": "https",
+					"host": [
+						"c3c9ae92-82e5-4c72-ab18-f405cfce10f8",
+						"mock",
+						"pstmn",
+						"io"
+					],
+					"path": [
+						"Flights",
+						"10567"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

@@ -1,0 +1,361 @@
+{
+	"info": {
+		"_postman_id": "6723c8d4-cea1-4a17-b216-6955937b6cb4",
+		"name": "FlightsApi Exercice 4",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5167767"
+	},
+	"item": [
+		{
+			"name": "SearchFlights",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Le code retour est 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"FlightNumber et SeatsAvailable sont présents dans la réponse\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"FlightNumber\");\r",
+							"    pm.expect(pm.response.text()).to.include(\"SeatsAvailable\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Sauvegarder le numéro du vol\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    console.log(\"Numéro du 1er vol disponible : \" + jsonData[0].FlightNumber);\r",
+							"    console.log(\"Le jour du vol : \" + jsonData[0].DayOfWeek);\r",
+							"    // pm.expect(jsonData[0].FlightNumber).to.eql(10519);\r",
+							"    pm.globals.set(\"FirstFlightAvailable\", jsonData[0].FlightNumber);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{endpoint}}/Flights?DepartureCity={{Depart}}&ArrivalCity={{Arrivee}}&Date={{DateVol}}",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"Flights"
+					],
+					"query": [
+						{
+							"key": "DepartureCity",
+							"value": "{{Depart}}"
+						},
+						{
+							"key": "ArrivalCity",
+							"value": "{{Arrivee}}"
+						},
+						{
+							"key": "Date",
+							"value": "{{DateVol}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetFlight",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Le code retour est 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"FlightNumber et SeatsAvailable sont présents dans la réponse\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"FlightNumber\");\r",
+							"    pm.expect(pm.response.text()).to.include(\"SeatsAvailable\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Le nombre de sièges disponibles est supérieur à 2\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.SeatsAvailable).greaterThan(2);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{endpoint}}/Flights/{{FirstFlightAvailable}}",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"Flights",
+						"{{FirstFlightAvailable}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BookFlight",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Le code retour est 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"OrderNumber et TotalPrice sont présents dans la réponse\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"OrderNumber\");\r",
+							"    pm.expect(pm.response.text()).to.include(\"TotalPrice\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Le numéro de résa est supérieur à 81\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.OrderNumber).greaterThan(81);\r",
+							"\r",
+							"    pm.globals.set(\"OrderRef\", jsonData.OrderNumber);\r",
+							"\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Temps de réponse inférieur à 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"DepartureDate\": \"{{DateVol}}\",\r\n    \"FlightNumber\": {{FirstFlightAvailable}},\r\n    \"CustomerName\": \"IMHAH Hassan\",\r\n    \"NumberOfTickets\": 1,\r\n    \"Class\": \"First\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{endpoint}}/FlightOrders",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"FlightOrders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetOrder",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Le code retour est 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"OrderNumber sont présents dans la réponse\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"OrderNumber\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Le client est IMHAH Hassan\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.CustomerName).eq(\"IMHAH Hassan\");\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{endpoint}}/FlightOrders/{{OrderRef}}",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"FlightOrders",
+						"{{OrderRef}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateOrder",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Le code retour est 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"OrderNumber et TotalPrice sont présents dans la réponse\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"OrderNumber\");\r",
+							"    pm.expect(pm.response.text()).to.include(\"TotalPrice\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Le prix total est supérieur à 500\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.TotalPrice).greaterThan(500);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{  \"DepartureDate\": \"2023-11-16\",  \"FlightNumber\": 10519,  \"CustomerName\": \"IMHAH Hassan\",   \"NumberOfTickets\": 4,  \"Class\": \"First\"}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{endpoint}}/FlightOrders/{{OrderRef}}",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"FlightOrders",
+						"{{OrderRef}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CancelOrder",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Le code retour est 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"L'annulation de la réservation est OK\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"true\");\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{endpoint}}/FlightOrders/{{OrderRef}}",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"FlightOrders",
+						"{{OrderRef}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"const currentDate = new Date();",
+					"const futureDate = new Date(currentDate);",
+					"futureDate.setDate(currentDate.getDate() + Math.floor(Math.random() * (30 - 15 + 1) + 15));",
+					"console.log(\"Future Date:\", futureDate.toISOString().split('T')[0]);",
+					"",
+					"const cities = [\"San Francisco\", \"Seattle\", \"Denver\", \"Frankfurt\", \"London\", \"Los Angeles\", \"Paris\", \"Portland\", \"Sydney\", \"Zurich\"];",
+					"",
+					"const dep_index = Math.floor(Math.random() * cities.length);",
+					"console.log(dep_index, cities[dep_index]);",
+					"",
+					"const arr_index = Math.floor(Math.random() * cities.length);",
+					"while (arr_index==dep_index) {",
+					"    arr_index = Math.floor(Math.random() * cities.length);",
+					"}",
+					"console.log(arr_index, cities[arr_index]);",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "Depart",
+			"value": "Paris",
+			"type": "string"
+		},
+		{
+			"key": "Arrivee",
+			"value": "London",
+			"type": "string"
+		},
+		{
+			"key": "DateVol",
+			"value": "2023-12-24",
+			"type": "string"
+		},
+		{
+			"key": "futureDate",
+			"value": ""
+		}
+	]
+}

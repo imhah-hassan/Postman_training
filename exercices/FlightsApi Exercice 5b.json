@@ -1,0 +1,258 @@
+{
+	"info": {
+		"_postman_id": "6f2b8eac-0711-4701-9251-a371a99f1c89",
+		"name": "FlightsApi Exercice 5b",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5167767"
+	},
+	"item": [
+		{
+			"name": "GetOrderByCustomerName",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Le code retour est 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"OrderNumber sont présents dans la réponse\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"OrderNumber\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Le client de la 1ere resa disponible est IMHAH Hassan\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[0].CustomerName).eq(\"IMHAH Hassan\");\r",
+							"    // Sauvegarder le 1er numéro de résa\r",
+							"    pm.collectionVariables.set(\"OrderRef\", jsonData[0].OrderNumber);\r",
+							"\r",
+							"    // Sauvegarder le nombre total de résa\r",
+							"    pm.collectionVariables.set(\"OrderCount\", jsonData.length);\r",
+							"    console.log (\"OrderCount  : \" + jsonData.length)\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{endpoint}}/FlightOrders?CustomerName=IMHAH Hassan",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"FlightOrders"
+					],
+					"query": [
+						{
+							"key": "CustomerName",
+							"value": "IMHAH Hassan"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SearchFlights",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Le code retour est 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"FlightNumber et SeatsAvailable sont présents dans la réponse\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"FlightNumber\");\r",
+							"    pm.expect(pm.response.text()).to.include(\"SeatsAvailable\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Sauvegarder le numéro du vol\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    console.log(\"Numéro du 1er vol disponible : \" + jsonData[0].FlightNumber);\r",
+							"    console.log(\"Le jour du vol : \" + jsonData[0].DayOfWeek);\r",
+							"    // pm.expect(jsonData[0].FlightNumber).to.eql(10519);\r",
+							"    pm.globals.set(\"FirstFlightAvailable\", jsonData[0].FlightNumber);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const currentDate = new Date();\r",
+							"const futureDate = new Date(currentDate);\r",
+							"futureDate.setDate(currentDate.getDate() + Math.floor(Math.random() * (30 - 15 + 1) + 15));\r",
+							"console.log(\"Future Date:\", futureDate.toISOString().split('T')[0]);\r",
+							"pm.collectionVariables.set(\"DateVol\", futureDate.toISOString().split('T')[0]);\r",
+							"\r",
+							"const cities = [\"San Francisco\", \"Seattle\", \"Denver\", \"Frankfurt\", \"London\", \"Los Angeles\", \"Paris\", \"Portland\", \"Sydney\", \"Zurich\"];\r",
+							"const dep_index = Math.floor(Math.random() * cities.length);\r",
+							"console.log(dep_index, cities[dep_index]);\r",
+							"pm.collectionVariables.set(\"Depart\", cities[dep_index]);\r",
+							"\r",
+							"const arr_index = Math.floor(Math.random() * cities.length);\r",
+							"while (arr_index==dep_index) {\r",
+							"    arr_index = Math.floor(Math.random() * cities.length);\r",
+							"}\r",
+							"console.log(arr_index, cities[arr_index]);\r",
+							"pm.collectionVariables.set(\"Arrivee\", cities[arr_index]);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{endpoint}}/Flights?DepartureCity={{Depart}}&ArrivalCity={{Arrivee}}&Date={{DateVol}}",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"Flights"
+					],
+					"query": [
+						{
+							"key": "DepartureCity",
+							"value": "{{Depart}}"
+						},
+						{
+							"key": "ArrivalCity",
+							"value": "{{Arrivee}}"
+						},
+						{
+							"key": "Date",
+							"value": "{{DateVol}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BookFlight",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Le code retour est 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"OrderNumber et TotalPrice sont présents dans la réponse\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"OrderNumber\");\r",
+							"    pm.expect(pm.response.text()).to.include(\"TotalPrice\");\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Le numéro de résa est supérieur à 81\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.OrderNumber).greaterThan(81);\r",
+							"\r",
+							"    pm.globals.set(\"OrderRef\", jsonData.OrderNumber);\r",
+							"\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Temps de réponse inférieur à 200ms\", function () {\r",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const OrderCount = pm.collectionVariables.get(\"OrderCount\");\r",
+							"\r",
+							"if (OrderCount<60) {\r",
+							"    postman.setNextRequest (\"GetOrderByCustomerName\")\r",
+							"}"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"DepartureDate\": \"{{DateVol}}\",\r\n    \"FlightNumber\": {{FirstFlightAvailable}},\r\n    \"CustomerName\": \"IMHAH Hassan\",\r\n    \"NumberOfTickets\": 1,\r\n    \"Class\": \"First\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{endpoint}}/FlightOrders",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"FlightOrders"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "DateVol",
+			"value": ""
+		},
+		{
+			"key": "Depart",
+			"value": ""
+		},
+		{
+			"key": "Arrivee",
+			"value": ""
+		},
+		{
+			"key": "OrderRef",
+			"value": ""
+		},
+		{
+			"key": "OrderCount",
+			"value": ""
+		}
+	]
+}
