@@ -1,6 +1,6 @@
-Installer python 3.11
+Installer python 3.11 (ne fonctionne pas avec des versions plus récentes)
 Exécuter
-    pip install -r requirement.txt
+    pip install -r requirements.txt
 
 Dézipper le contenu dans un dossier 
 	C:\Formation\PyFlightApi
