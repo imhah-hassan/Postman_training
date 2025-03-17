@@ -1,0 +1,182 @@
+{
+	"info": {
+		"_postman_id": "9bf85980-b6c6-4e36-80de-7999343ef117",
+		"name": "FlightApi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5167767"
+	},
+	"item": [
+		{
+			"name": "GetFlight",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/Flights/10487",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"Flights",
+						"10487"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetCities",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/Cities",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"Cities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SearchFlights",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/Flights?DepartureCity=Paris&ArrivalCity=London&Date=2025-05-13",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"Flights"
+					],
+					"query": [
+						{
+							"key": "DepartureCity",
+							"value": "Paris"
+						},
+						{
+							"key": "ArrivalCity",
+							"value": "London"
+						},
+						{
+							"key": "Date",
+							"value": "2025-05-13"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BookFlight",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"DepartureDate\": \"2025-05-13\",\r\n  \"FlightNumber\": 10487,\r\n  \"CustomerName\": \"IMHHA\",\r\n  \"NumberOfTickets\": 2,\r\n  \"Class\": \"First\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000//FlightOrders",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"",
+						"FlightOrders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetOrder",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"DepartureDate\": \"2025-05-13\",\r\n  \"FlightNumber\": 10487,\r\n  \"CustomerName\": \"IMHHA\",\r\n  \"NumberOfTickets\": 2,\r\n  \"Class\": \"First\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000//FlightOrders/108",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"",
+						"FlightOrders",
+						"108"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetCustomerOrders",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"DepartureDate\": \"2025-05-13\",\r\n  \"FlightNumber\": 10487,\r\n  \"CustomerName\": \"IMHHA\",\r\n  \"NumberOfTickets\": 2,\r\n  \"Class\": \"First\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/FlightOrders?CustomerName=IMHAH",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"",
+						"FlightOrders"
+					],
+					"query": [
+						{
+							"key": "CustomerName",
+							"value": "IMHAH"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
