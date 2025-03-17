@@ -1,0 +1,12 @@
+Depart,Arrivee,Date
+San Francisco,Zurich,2025-05-12
+Seattle,San Francisco,2025-05-19
+Denver,Seattle,2025-05-13
+Frankfurt,Denver,2025-05-20
+London,Frankfurt,2025-05-14
+Los Angeles,London,2025-05-21
+Paris,Los Angeles,2025-05-15
+Portland,Paris,2025-05-22
+Sydney,Portland,2025-05-16
+Zurich,Sydney,2025-05-23
+

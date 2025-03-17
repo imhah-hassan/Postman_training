@@ -1,0 +1,342 @@
+{
+	"info": {
+		"_postman_id": "9bf85980-b6c6-4e36-80de-7999343ef117",
+		"name": "FlightApi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5167767"
+	},
+	"item": [
+		{
+			"name": "GetFlight",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"FlightNumber string is present\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"FlightNumber\");\r",
+							"});\r",
+							"pm.test(\"Flight day is Tuesday\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.DayOfWeek).to.eql(\"Tuesday\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{endpoint}}/Flights/10487",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"Flights",
+						"10487"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetCities",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{endpoint}}/Cities",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"Cities"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SearchFlights",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"FlightNumber string is present\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"FlightNumber\");\r",
+							"        var jsonData = pm.response.json();\r",
+							"    // pm.expect(jsonData[0].FlightNumber).to.eql(10487);\r",
+							"    pm.globals.set(\"FirstFlightNumber\", jsonData[0].FlightNumber);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{endpoint}}/Flights?DepartureCity={{Depart}}&ArrivalCity={{Arrivee}}&Date={{Date}}",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"Flights"
+					],
+					"query": [
+						{
+							"key": "DepartureCity",
+							"value": "{{Depart}}"
+						},
+						{
+							"key": "ArrivalCity",
+							"value": "{{Arrivee}}"
+						},
+						{
+							"key": "Date",
+							"value": "{{Date}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BookFlight",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"OrderNumber present\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"OrderNumber\");\r",
+							"    var resp = pm.response.json();\r",
+							"    pm.globals.set(\"OrderNumber\", resp.OrderNumber);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"DepartureDate\": \"{{Date}}\",\r\n  \"FlightNumber\": {{FirstFlightNumber}},\r\n  \"CustomerName\": \"IMHAH\",\r\n  \"NumberOfTickets\": 2,\r\n  \"Class\": \"First\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{endpoint}}//FlightOrders",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"",
+						"FlightOrders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetOrder",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"DepartureDate\": \"2025-05-13\",\r\n  \"FlightNumber\": 10487,\r\n  \"CustomerName\": \"IMHHA\",\r\n  \"NumberOfTickets\": 2,\r\n  \"Class\": \"First\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{endpoint}}//FlightOrders/108",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"",
+						"FlightOrders",
+						"108"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetCustomerOrders",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"OrderNumber present\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"OrderNumber\");\r",
+							"    var resp = pm.response.json();\r",
+							"    pm.globals.set(\"OrderNumber\", resp[0].OrderNumber);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"DepartureDate\": \"2025-05-13\",\r\n  \"FlightNumber\": 10487,\r\n  \"CustomerName\": \"IMHHA\",\r\n  \"NumberOfTickets\": 2,\r\n  \"Class\": \"First\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{endpoint}}/FlightOrders?CustomerName=IMHAH",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"",
+						"FlightOrders"
+					],
+					"query": [
+						{
+							"key": "CustomerName",
+							"value": "IMHAH"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteOrder",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"DepartureDate\": \"2025-05-13\",\r\n  \"FlightNumber\": 10487,\r\n  \"CustomerName\": \"IMHHA\",\r\n  \"NumberOfTickets\": 2,\r\n  \"Class\": \"First\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{endpoint}}//FlightOrders/{{OrderNumber}}",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"",
+						"FlightOrders",
+						"{{OrderNumber}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateOrder",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"DepartureDate\": \"2025-05-13\",\r\n  \"FlightNumber\": 10487,\r\n  \"CustomerName\": \"IMHHA\",\r\n  \"NumberOfTickets\": 2,\r\n  \"Class\": \"First\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{endpoint}}//FlightOrders/103",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"",
+						"FlightOrders",
+						"103"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "Depart",
+			"value": "Paris",
+			"type": "string"
+		},
+		{
+			"key": "Arrivee",
+			"value": "London",
+			"type": "string"
+		},
+		{
+			"key": "Date",
+			"value": "2025-06-01",
+			"type": "string"
+		}
+	]
+}
