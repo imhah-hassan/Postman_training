@@ -1,3 +1,4 @@
+#!C:\Apps\Python311 python
 # encoding: utf8
 import sys
 import traceback
@@ -305,7 +306,7 @@ class   sqlite_db ():
         return (flights)
     def get_flight (self, flight_number):
         logging.info ('get_flight flight_number : %s  ', flight_number)
-        sql = 'SELECT 	f.Airline , f.Arrival , f.ArrivalTime, f.Departure,f.DepartureTime , f.FlightNumber , f.TicketPrice, f.TicketPriceFirst, f.TicketPriceBusiness, f.SeatsAvailable, f.DayOfWeek FROM 	Flights f  '
+        sql = 'SELECT f.Airline , f.Arrival , f.ArrivalTime, f.Departure,f.DepartureTime , f.FlightNumber , f.TicketPrice, f.TicketPriceFirst, f.TicketPriceBusiness, f.SeatsAvailable, f.DayOfWeek FROM Flights f  '
         sql += ' WHERE f.FlightNumber  = ' + str(flight_number) + ';'
         logging.info (sql)
         with self.con:
@@ -502,8 +503,9 @@ class   sqlite_db ():
         totaPrice = 0
         orders =  self.get_orders (str(order_number), '')
         flight = self.get_flight(flight_number)
-        if flight<0:
-            return (-10)
+        if type(flight) == 'int':
+            if flight<0:
+                return (-10)
         if (len(orders)==0):
             return 0
         tickets_ordered_old = orders[0].NumberOfTickets
