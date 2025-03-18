@@ -1,0 +1,91 @@
+{
+	"info": {
+		"_postman_id": "2cee25a4-b9f1-4187-be5a-e60aad0a4d25",
+		"name": "ManageIssues",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5167767"
+	},
+	"item": [
+		{
+			"name": "3.1.Normal login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"auth_token present\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"auth_token\");\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.collectionVariables.set (\"auth_token\", jsonData.auth_token);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"password\": \"Onepoint$2025\",\r\n        \"type\": \"normal\",\r\n        \"username\": \"h.imhah@groupeonepoint.com\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{endpoint}}/auth",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"auth"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "10.4.GetBySlug",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{auth_token}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{endpoint}}/projects/by_slug?slug=himhah-centrale2025",
+					"host": [
+						"{{endpoint}}"
+					],
+					"path": [
+						"projects",
+						"by_slug"
+					],
+					"query": [
+						{
+							"key": "slug",
+							"value": "himhah-centrale2025"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "auth_token",
+			"value": ""
+		}
+	]
+}
