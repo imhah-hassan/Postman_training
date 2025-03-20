@@ -1,0 +1,283 @@
+{
+	"info": {
+		"_postman_id": "375e6110-d5db-4945-b60c-58a71c9e4ee1",
+		"name": "FlightsApi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5167767"
+	},
+	"item": [
+		{
+			"name": "GetFlight",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Body contains string FlightNumber\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"FlightNumber\");\r",
+							"});\r",
+							"pm.test(\"Check DepartureCity is Paris, ArrivalCity is London, DepartureTime is 08:00 AM \", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.DepartureCity).to.eql(\"Paris\");\r",
+							"    pm.expect(jsonData.ArrivalCity).to.eql(\"London\");\r",
+							"    pm.expect(jsonData.DepartureTime).to.eql(\"08:00 AM\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/Flights/10487",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"Flights",
+						"10487"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "SearchFlights",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Body contains string FlightNumber\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"FlightNumber\");\r",
+							"});\r",
+							"pm.test(\"Check first FlightNumber is 10487\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[0].FlightNumber).to.eql(10487);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/Flights?DepartureCity=Paris&ArrivalCity=London&Date=2025-05-13",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"Flights"
+					],
+					"query": [
+						{
+							"key": "DepartureCity",
+							"value": "Paris"
+						},
+						{
+							"key": "ArrivalCity",
+							"value": "London"
+						},
+						{
+							"key": "Date",
+							"value": "2025-05-13"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "BookFight",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Body contains string OrderNumber\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"OrderNumber\");\r",
+							"});\r",
+							"pm.test(\"Check first OrderNumber is greater than 80\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.OrderNumber).to.be.greaterThan(80);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"DepartureDate\": \"2025-05-13\",\r\n  \"FlightNumber\": 10487,\r\n  \"CustomerName\": \"IMHAH\",\r\n  \"NumberOfTickets\": 2,\r\n  \"Class\": \"First\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/FlightOrders",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"FlightOrders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetCustomerOrders",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Body contains string CustomerName\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"CustomerName\");\r",
+							"});\r",
+							"pm.test(\"Check CustomerName is IMHAH\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData[0].CustomerName).to.eql(\"IMHAH\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/FlightOrders?CustomerName=IMHAH",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"FlightOrders"
+					],
+					"query": [
+						{
+							"key": "CustomerName",
+							"value": "IMHAH"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetOrder",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Body contains string CustomerName\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"CustomerName\");\r",
+							"});\r",
+							"pm.test(\"Check CustomerName is IMHAH\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData.CustomerName).to.eql(\"IMHAH\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/FlightOrders/113",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"FlightOrders",
+						"113"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteOrder",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"pm.test(\"Body contains string true\", function () {\r",
+							"    pm.expect(pm.response.text()).to.include(\"true\");\r",
+							"    pm.expect(pm.response.text()).to.include(\"Order deleted\");\r",
+							"\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/FlightOrders/113",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"FlightOrders",
+						"113"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
